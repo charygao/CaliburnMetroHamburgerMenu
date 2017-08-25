@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="CaliburnMetroHamburgerMenu.Views.ShellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaliburnMetroHamburgerMenu.Views"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModels="clr-namespace:CaliburnMetroHamburgerMenu.ViewModels"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:caliburnMetroHamburgerMenu="clr-namespace:CaliburnMetroHamburgerMenu"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+    
+    <controls:HamburgerMenu 
+        DisplayMode="CompactInline"
+        IsPaneOpen="True"
+        ItemsSource="{Binding Items, Converter={StaticResource PaneListToHamburgerMenuItemCollection}}"
+        SelectedItem="{Binding ActiveItem, Mode=TwoWay, Converter={StaticResource HamburgerMenuItemToPane}, BindsDirectlyToSource=True}" 
+        >
+
+        <ContentControl cal:View.Model="{Binding ActiveItem}">
+        </ContentControl>
+
+        <controls:HamburgerMenu.ItemTemplate>
+            <DataTemplate DataType="{x:Type caliburnMetroHamburgerMenu:IPane}">
+                    <Grid x:Name="RootGrid"
+                          Height="48"
+                          Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <iconPacks:PackIconModern 
+                            Grid.Column="0"
+                            Kind="{Binding Icon}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="White" />
+
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="{Binding Label}" />
+                    </Grid>
+            </DataTemplate>
+        </controls:HamburgerMenu.ItemTemplate>
+    </controls:HamburgerMenu>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Content="Activate last item" x:Name="ActivateLast" />
+        </StackPanel>
+    </Grid>
+</UserControl>
